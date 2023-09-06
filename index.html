@@ -2,111 +2,117 @@
 <html lang="en">
 
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Message</title>
-	<link rel="shortcut icon" href="https://i.imgur.com/mhWNOq3.png" type="image/x-icon">
-	<style>
-		@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans&family=Questrial&display=swap');
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Message</title>
+    <link rel="shortcut icon" href="https://i.imgur.com/mhWNOq3.png" type="image/x-icon">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans&family=Questrial&display=swap');
 
-		body {
-			font-family: 'Josefin Sans', sans-serif;
-		}
+        body {
+            font-family: 'Josefin Sans', sans-serif;
+        }
 
-		.box {
-			position: relative;
-			max-width: 800px;
-			margin: 0 auto;
-			text-align: center;
-		}
+        .box {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
 
-		.image {
-			max-width: 100%;
-			height: auto;
-		}
+        .image {
+            max-width: 100%;
+            height: auto;
+        }
 
-		.chat {
-			position: absolute;
-			bottom: 0;
-			left: 50%;
-			transform: translateX(-50%);
-			background-color: rgba(0, 0, 0, 0.7);
-			color: white;
-			padding: 10px;
-			box-sizing: border-box;
+        .chat {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px;
+			font-size: 250%;
+            box-sizing: border-box;
+        }
 
-		}
+        .wrapper-input {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background-color: rgba(173, 133, 133, 0.301);
+        }
 
-		.wrapper-input {
-			position: fixed;
-			bottom: 0;
-			left: 0;
-			width: 100%;
-			display: flex;
-			align-items: center;
-			padding: 10px;
-			background-color: rgba(173, 133, 133, 0.301);
-		}
+        .input-bar {
+            flex-grow: 1;
+            padding: 10px;
+            border: 2px solid black;
+            background-color: transparent;
+            color: black;
+            font-family: 'Arial', sans-serif;
+        }
 
-		.input-bar {
-			flex-grow: 1;
-			padding: 10px;
-			border: 2px solid black;
-			background-color: transparent;
-			color: black;
-			font-family: 'Arial', sans-serif;
-		}
+        .enter {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
 
-		.enter {
-			background-color: #007bff;
-			color: white;
-			border: none;
-			padding: 10px 20px;
-			cursor: pointer;
-			margin-left: 10px;
-		}
-
-		.enter:hover {
-			background-color: #0056b3;
-		}
-	</style>
+        .enter:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 
 <body>
-	<div class="box">
-		<img class="image" src="https://i.imgur.com/mhWNOq3.png" alt="BRO, ITS JUST AN IMAGE">
-		<div class="chat" id="chat"></div>
-	</div>
+    <div class="box">
+        <img class="image" src="https://i.imgur.com/mhWNOq3.png" alt="BRO, ITS JUST AN IMAGE">
+        <div class="chat" id="chat"></div>
+    </div>
 
-	<div class="wrapper-input">
-		<input class="input-bar" type="text" placeholder="Message" id="inputText">
-		<button class="enter" onclick="addText()">Aggiungi Testo</button>
-	</div>
+    <div class="wrapper-input">
+        <input class="input-bar" type="text" placeholder="Message" id="inputText">
+        <button class="enter" onclick="addText()">Aggiungi Testo</button>
+    </div>
 
-	<script>
-		function addText() {
-			const inputText = document.querySelector('#inputText');
-			const text = inputText.value;
-			const chat = document.getElementById('chat');
+    <script>
+        function addText() {
+            const inputText = document.querySelector('#inputText');
+            const text = inputText.value;
+            const chat = document.getElementById('chat');
 
-			// Aggiungi il testo alla vignetta
-			chat.textContent = text;
+            // Clear the chat box letter by letter
+            chat.textContent = '';
+            const interval = 100; // Milliseconds between adding letters
+            let currentIndex = 0;
 
-			// Svuota l'input
-			inputText.value = '';
+            function addLetter() {
+                if (currentIndex < text.length) {
+                    chat.textContent += text[currentIndex];
+                    currentIndex++;
+                    setTimeout(addLetter, interval);
+                }
+            }
 
-			// Mostra la vignetta
-			chat.style.display = 'block';
-		}
+            addLetter();
+            inputText.value = '';
+        }
 
-		// Aggiungi gestione dell'evento "keydown" all'input
-		const inputText = document.querySelector('#inputText');
-		inputText.addEventListener('keydown', function (event) {
-			if (event.key === 'Enter') {
-				addText();
-			}
-		});
-	</script>
+        const inputText = document.querySelector('#inputText');
+        inputText.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                addText();
+            }
+        });
+    </script>
 </body>
 
 </html>
